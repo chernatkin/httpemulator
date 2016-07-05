@@ -1,9 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans     
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -12,22 +12,22 @@
      	http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-  <context:component-scan base-package="ru.hh.http.emulator" />
+    <context:component-scan base-package="ru.hh.httpemulator" />
   
-  <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
   
-  <bean id="scenarioEngine" class="ru.hh.http.emulator.engine.ScenarioEngine">
-    <property name="scenaries">
-	    <map>
-	    	<entry key="timeoutScenario">
-	    		<bean class="ru.hh.http.emulator.scenario.TimeoutScenario"/>
-	    	</entry>
-	    </map>
-    </property>
-  </bean>
+    <bean id="scenarioEngine" class="ru.hh.httpemulator.server.engine.ScenarioEngine">
+        <property name="scenaries">
+            <map>
+                <entry key="timeoutScenario">
+                    <bean class="ru.hh.httpemulator.server.scenario.TimeoutScenario"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
   
-  <bean id="criteriaEngine" class="ru.hh.http.emulator.engine.CriteriaHttpEngine">
-    <property name="expirationTimeout" value="36000"/>
-  </bean>
+    <bean id="criteriaEngine" class="ru.hh.httpemulator.server.engine.CriteriaHttpEngine">
+        <property name="expirationTimeout" value="36000"/>
+    </bean>
   
 </beans>
