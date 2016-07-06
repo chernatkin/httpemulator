@@ -3,7 +3,7 @@ package ru.hh.httpemulator.server;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -35,7 +35,7 @@ import ru.hh.httpemulator.server.exception.RuleNotFoundException;
 @Order(Ordered.LOWEST_PRECEDENCE)
 @RequestMapping("criteria")
 public class CriteriaController {
-  private final Logger LOGGER = LoggerFactory.getLogger(CriteriaController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CriteriaController.class);
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -45,32 +45,33 @@ public class CriteriaController {
 
   @PostConstruct
   public void postConstruct() {
-    objectMapper.registerModule(new Hibernate4Module());
+    objectMapper.registerModule(new Hibernate5Module());
   }
 
   @RequestMapping(value = "simple", method = RequestMethod.PUT, produces = { "text/plain" })
   @ResponseBody
-  public String createSimpleCriteria(@RequestParam("rule") final String httpEntry,
-      @RequestParam("response") final String response) throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException {
-    return ""
-    + engine.addRule(
-      objectMapper.readValue(httpEntry, HttpEntry.class),
-      (Collection<HttpEntry>) objectMapper.readValue(
-        response, objectMapper.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class)));
+  public String createSimpleCriteria(@RequestParam("rule") String httpEntry, @RequestParam("response") String response)
+      throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException {
+    return engine.addRule(
+        objectMapper.readValue(httpEntry, HttpEntry.class),
+        objectMapper.readValue(response, objectMapper.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class))
+    ).toString();
   }
   
   @RequestMapping(value = "full", method = RequestMethod.PUT, produces = { "text/plain" })
   @ResponseBody
-  public String createCriteria(@RequestParam("criteria") final String criteria,
-      @RequestParam("response") final String response) throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException {
-    return "" + engine.addRule(objectMapper.readValue(criteria, HttpCriteria.class), 
-    							(Collection<HttpEntry>) objectMapper.readValue(response, objectMapper.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class)));
+  public String createCriteria(@RequestParam("criteria") String criteria, @RequestParam("response") String response)
+      throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException {
+    return engine.addRule(
+        objectMapper.readValue(criteria, HttpCriteria.class),
+        objectMapper.readValue(response, objectMapper.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class))
+    ).toString();
   }
 
   @RequestMapping(value = "{id:[0-9]+}", method = RequestMethod.DELETE)
   @ResponseBody
-  public void deleteCriteria(@PathVariable("id") final Long id) throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException,
-    RuleNotFoundException {
+  public void deleteCriteria(@PathVariable("id") Long id)
+      throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException, RuleNotFoundException {
     engine.deleteRule(id);
   }
 
@@ -92,7 +93,6 @@ public class CriteriaController {
   @ResponseBody
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public String internalFail(Exception e) {
-    e.printStackTrace();
     LOGGER.warn(HttpStatus.INTERNAL_SERVER_ERROR.toString(), e);
     return e.getMessage();
   }
