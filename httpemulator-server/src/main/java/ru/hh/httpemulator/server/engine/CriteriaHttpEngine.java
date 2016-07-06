@@ -14,6 +14,8 @@ import javax.annotation.PostConstruct;
 
 import com.google.common.cache.CacheBuilder;
 import java.util.function.Function;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import ru.hh.httpemulator.client.entity.EQHttpRestriction;
 import ru.hh.httpemulator.client.entity.HttpCriteria;
@@ -21,11 +23,13 @@ import ru.hh.httpemulator.client.entity.HttpEntry;
 import ru.hh.httpemulator.server.exception.AmbiguousRulesException;
 import ru.hh.httpemulator.server.exception.RuleNotFoundException;
 
+@Named
+@Singleton
 public class CriteriaHttpEngine implements HttpEngine {
 
   private final AtomicLong sequence = new AtomicLong();
 
-  private int expirationTimeout = -1;
+  private static final long EXPIRATION_TIMEOUT = 36000;
 
   private Map<HttpCriteria, Collection<HttpEntry>> rulesMap;
 
@@ -36,7 +40,7 @@ public class CriteriaHttpEngine implements HttpEngine {
   @PostConstruct
   public void postConstruct() {
     rulesMap = CacheBuilder.newBuilder()
-        .expireAfterAccess(expirationTimeout, TimeUnit.SECONDS)
+        .expireAfterAccess(EXPIRATION_TIMEOUT, TimeUnit.SECONDS)
         .concurrencyLevel(4)
         .<HttpCriteria, Collection<HttpEntry>>build()
         .asMap();
@@ -144,13 +148,5 @@ public class CriteriaHttpEngine implements HttpEngine {
     } finally {
       writeLock.unlock();
     }
-  }
-
-  public int getExpirationTimeout() {
-    return expirationTimeout;
-  }
-
-  public void setExpirationTimeout(int expirationTimeout) {
-    this.expirationTimeout = expirationTimeout;
   }
 }

@@ -13,21 +13,5 @@
         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
     <context:component-scan base-package="ru.hh.httpemulator" />
-  
-    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
-  
-    <bean id="scenarioEngine" class="ru.hh.httpemulator.server.engine.ScenarioEngine">
-        <property name="scenaries">
-            <map>
-                <entry key="timeoutScenario">
-                    <bean class="ru.hh.httpemulator.server.scenario.TimeoutScenario"/>
-                </entry>
-            </map>
-        </property>
-    </bean>
-  
-    <bean id="criteriaEngine" class="ru.hh.httpemulator.server.engine.CriteriaHttpEngine">
-        <property name="expirationTimeout" value="36000"/>
-    </bean>
-  
+
 </beans>

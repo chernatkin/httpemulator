@@ -1,6 +1,8 @@
 package ru.hh.httpemulator.server.scenario;
 
 import java.util.Collection;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +14,10 @@ import org.springframework.util.CollectionUtils;
 import ru.hh.httpemulator.client.entity.AttributeType;
 import ru.hh.httpemulator.client.entity.HttpEntry;
 
+@Named(value = TimeoutScenario.SCENARIO_NAME)
+@Singleton
 public class TimeoutScenario implements Scenario {
+  public static final String SCENARIO_NAME = "timeoutScenario";
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TimeoutScenario.class);
 

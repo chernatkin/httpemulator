@@ -5,15 +5,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.springframework.stereotype.Component;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import ru.hh.httpemulator.client.entity.HttpCriteria;
 import ru.hh.httpemulator.client.entity.HttpEntry;
 import ru.hh.httpemulator.server.exception.AmbiguousRulesException;
 import ru.hh.httpemulator.server.exception.RuleNotFoundException;
 
-@Component
+@Named
+@Singleton
 public class SimpleHttpEngine implements HttpEngine {
 
   private final AtomicLong sequence = new AtomicLong();

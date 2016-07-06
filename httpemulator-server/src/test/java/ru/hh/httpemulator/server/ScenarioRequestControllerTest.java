@@ -20,6 +20,7 @@ import ru.hh.httpemulator.server.exception.AmbiguousRulesException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import ru.hh.httpemulator.server.scenario.OAuthCodeCallbackScenario;
 
 public class ScenarioRequestControllerTest extends BaseTest {
 
@@ -49,6 +50,30 @@ public class ScenarioRequestControllerTest extends BaseTest {
 
     Assert.assertEquals(548, response.getStatus());
     Assert.assertTrue(watch.getTotalTimeMillis() > time);
+  }
+
+  @Test
+  public void executeOAuthStateScenarioTest() throws JsonProcessingException, InterruptedException, TimeoutException, ExecutionException {
+
+    final String state = "oauthState";
+    final String redirectUri = "https://localhost/code";
+
+    final ContentResponse criteriaResponse;
+    criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "test", "oAuth"),
+        Arrays.asList(new HttpEntry(AttributeType.PARAMETER, OAuthCodeCallbackScenario.OAUTH_REDIRECT_URI_KEY, redirectUri),
+            new HttpEntry(AttributeType.SCENARIO, null, OAuthCodeCallbackScenario.SCENARIO_NAME)));
+
+    Assert.assertEquals(HttpServletResponse.SC_OK, criteriaResponse.getStatus());
+
+    final ContentResponse response = newRequest()
+        .path("/abc/def")
+        .method(HttpMethod.GET)
+        .param("test", "oAuth")
+        .param("state", state)
+        .send();
+
+    Assert.assertEquals(HttpServletResponse.SC_MOVED_TEMPORARILY, response.getStatus());
+    Assert.assertEquals(redirectUri + "?state=" + state, response.getHeaders().get("Location"));
   }
 
 }

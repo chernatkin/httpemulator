@@ -23,11 +23,11 @@ public class EmulatorClient {
 
   private static final String PUT_FULL_RULE_PATH = "/criteria/full";
 
+  private static final ObjectMapper MAPPER = new ObjectMapper();
+
   private final HttpClient client = new HttpClient();
 
   private final String url;
-
-  private final ObjectMapper jsonMapper = new ObjectMapper();
 
   public EmulatorClient(String url) throws Exception {
     this.url = url;
@@ -50,8 +50,8 @@ public class EmulatorClient {
       throws JsonProcessingException, InterruptedException, TimeoutException, ExecutionException {
     return newRequest().path(PUT_SIMPLE_PATH)
         .method(HttpMethod.PUT)
-        .param("rule", jsonMapper.writeValueAsString(rule))
-        .param("response", jsonMapper.writeValueAsString(responseEntries))
+        .param("rule", MAPPER.writeValueAsString(rule))
+        .param("response", MAPPER.writeValueAsString(responseEntries))
         .send();
   }
 
@@ -70,8 +70,8 @@ public class EmulatorClient {
       throws JsonProcessingException, InterruptedException, TimeoutException, ExecutionException {
     return newRequest().path(PUT_FULL_RULE_PATH)
         .method(HttpMethod.PUT)
-        .param("criteria", jsonMapper.writeValueAsString(criteria))
-        .param("response", jsonMapper.writeValueAsString(responseEntries))
+        .param("criteria", MAPPER.writeValueAsString(criteria))
+        .param("response", MAPPER.writeValueAsString(responseEntries))
         .send();
   }
 

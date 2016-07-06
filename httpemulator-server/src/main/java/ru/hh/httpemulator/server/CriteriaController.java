@@ -37,15 +37,14 @@ import ru.hh.httpemulator.server.exception.RuleNotFoundException;
 public class CriteriaController {
   private static final Logger LOGGER = LoggerFactory.getLogger(CriteriaController.class);
 
-  @Inject
-  private ObjectMapper objectMapper;
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   @Inject
   private CriteriaHttpEngine engine;
 
   @PostConstruct
   public void postConstruct() {
-    objectMapper.registerModule(new Hibernate5Module());
+    MAPPER.registerModule(new Hibernate5Module());
   }
 
   @RequestMapping(value = "simple", method = RequestMethod.PUT, produces = { "text/plain" })
@@ -53,8 +52,8 @@ public class CriteriaController {
   public String createSimpleCriteria(@RequestParam("rule") String httpEntry, @RequestParam("response") String response)
       throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException {
     return engine.addRule(
-        objectMapper.readValue(httpEntry, HttpEntry.class),
-        objectMapper.readValue(response, objectMapper.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class))
+        MAPPER.readValue(httpEntry, HttpEntry.class),
+        MAPPER.readValue(response, MAPPER.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class))
     ).toString();
   }
   
@@ -63,8 +62,8 @@ public class CriteriaController {
   public String createCriteria(@RequestParam("criteria") String criteria, @RequestParam("response") String response)
       throws JsonParseException, JsonMappingException, IOException, AmbiguousRulesException {
     return engine.addRule(
-        objectMapper.readValue(criteria, HttpCriteria.class),
-        objectMapper.readValue(response, objectMapper.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class))
+        MAPPER.readValue(criteria, HttpCriteria.class),
+        MAPPER.readValue(response, MAPPER.getTypeFactory().constructCollectionType(Collection.class, HttpEntry.class))
     ).toString();
   }
 

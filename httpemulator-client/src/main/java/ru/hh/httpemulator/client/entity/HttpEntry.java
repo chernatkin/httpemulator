@@ -3,8 +3,6 @@ package ru.hh.httpemulator.client.entity;
 public class HttpEntry {
   private Long id;
 
-  // private HttpRestriction restriction;
-
   private AttributeType type;
 
   private String key;
