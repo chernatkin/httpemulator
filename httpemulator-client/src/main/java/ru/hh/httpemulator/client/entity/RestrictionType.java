@@ -2,23 +2,21 @@ package ru.hh.httpemulator.client.entity;
 
 public enum RestrictionType {
 
-	EQ(1),
-	
-	OR(101),
-	
-	AND(102);
-	
-	private final int value;
+  EQ(1),
+  OR(101),
+  AND(102);
 
-	private RestrictionType(int value) {
-		this.value = value;
-	}
+  private final int value;
 
-	public int getValue() {
-		return value;
-	}
-	
-	public boolean isAgregate(){
-		return value > 100;
-	}
+  private RestrictionType(int value) {
+    this.value = value;
+  }
+
+  public int getValue() {
+    return value;
+  }
+
+  public boolean isAgregate() {
+    return value > 100;
+  }
 }

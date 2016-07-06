@@ -7,7 +7,7 @@ import ru.hh.httpemulator.client.entity.HttpEntry;
 import ru.hh.httpemulator.client.entity.HttpRestriction;
 
 public class SimpleCriteriaBuilder extends CriteriaBuilder<SimpleCriteriaBuilder> {
-	
+
   private HttpEntry rule;
 
   public SimpleCriteriaBuilder(EmulatorClient client) {
@@ -16,26 +16,26 @@ public class SimpleCriteriaBuilder extends CriteriaBuilder<SimpleCriteriaBuilder
 
   @Override
   public SimpleCriteriaBuilder addEQ(AttributeType type, String key, String value) {
-	if(rule != null){
-		throw new IllegalStateException("Simple builder allow only one restriction");
-	}
+    if (rule != null) {
+      throw new IllegalStateException("Simple builder allow only one restriction");
+    }
     rule = new HttpEntry(type, key, value);
     return this;
   }
 
   @Override
   public SimpleCriteriaBuilder add(HttpRestriction restriction) {
-	rule = new HttpEntry(restriction.getAttribyteType(), restriction.getKey(), restriction.getValue());
-	return this;
+    rule = new HttpEntry(restriction.getAttribyteType(), restriction.getKey(), restriction.getValue());
+    return this;
   }
-  
+
   @Override
   protected ContentResponse sendRequest() throws Exception {
-	return getClient().putSimple(rule, getResult());
+    return getClient().putSimple(rule, getResult());
   }
 
   @Override
   protected SimpleCriteriaBuilder self() {
-	return this;
+    return this;
   }
 }

@@ -15,25 +15,24 @@ import ru.hh.httpemulator.server.scenario.Scenario;
 @Component
 public class ScenarioEngine {
 
-	private Map<String, Scenario> scenaries;
-	
+  private Map<String, Scenario> scenaries;
+
   public Collection<HttpEntry> executeScenario(String scenarionName, HttpServletRequest request, HttpServletResponse response,
       Collection<HttpEntry> otherEntries) throws ScenarioNotFoundException {
-		final Scenario scenario = scenaries.get(scenarionName);
-		if(scenario == null){
-			throw new ScenarioNotFoundException("Scenario {" + scenarionName + "} not found");
-		}
-		
-		return scenario.execute(request, response, otherEntries);
-	}
+    final Scenario scenario = scenaries.get(scenarionName);
+    if (scenario == null) {
+      throw new ScenarioNotFoundException("Scenario {" + scenarionName + "} not found");
+    }
 
-	public Map<String, Scenario> getScenaries() {
-		return scenaries;
-	}
+    return scenario.execute(request, response, otherEntries);
+  }
 
-	public void setScenaries(Map<String, Scenario> scenaries) {
-		this.scenaries = scenaries;
-	}
-	
-	
+  public Map<String, Scenario> getScenaries() {
+    return scenaries;
+  }
+
+  public void setScenaries(Map<String, Scenario> scenaries) {
+    this.scenaries = scenaries;
+  }
+
 }

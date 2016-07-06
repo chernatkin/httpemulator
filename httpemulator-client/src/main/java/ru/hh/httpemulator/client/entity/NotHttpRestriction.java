@@ -5,22 +5,22 @@ import java.util.Collections;
 
 public class NotHttpRestriction extends HttpRestriction {
 
-	public NotHttpRestriction() {
-	}
-	
+  public NotHttpRestriction() {
+  }
+
   public NotHttpRestriction(HttpRestriction restriction) {
-		restriction.setParent(this);
-		setChilds(Collections.singleton(restriction));
-	}
+    restriction.setParent(this);
+    setChilds(Collections.singleton(restriction));
+  }
 
-	@Override
-	public boolean match(Collection<HttpEntry> request) {
-		return !getChilds().iterator().next().match(request);
-	}
+  @Override
+  public boolean match(Collection<HttpEntry> request) {
+    return !getChilds().iterator().next().match(request);
+  }
 
-	@Override
-	protected boolean matchValue(String value) {
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  protected boolean matchValue(String value) {
+    throw new UnsupportedOperationException();
+  }
 
 }
