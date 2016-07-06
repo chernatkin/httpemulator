@@ -14,7 +14,7 @@ import ru.hh.httpemulator.client.entity.HttpEntry;
 
 public class TimeoutScenario implements Scenario {
 
-  private final Logger LOGGER = LoggerFactory.getLogger(TimeoutScenario.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TimeoutScenario.class);
 
   private static final int DEFAULT_TIMEOUT = 5000;
 

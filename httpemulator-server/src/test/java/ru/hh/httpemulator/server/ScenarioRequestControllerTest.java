@@ -24,7 +24,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 public class ScenarioRequestControllerTest extends BaseTest {
 
   @Test
-  public void executeTimeoutScenarioTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, AmbiguousRulesException, InterruptedException, TimeoutException, ExecutionException {
+  public void executeTimeoutScenarioTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException,
+      AmbiguousRulesException, InterruptedException, TimeoutException, ExecutionException {
 
     final int time = 2000;
 

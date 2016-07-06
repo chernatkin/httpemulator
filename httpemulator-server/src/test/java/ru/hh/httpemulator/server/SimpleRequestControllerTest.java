@@ -23,9 +23,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 public class SimpleRequestControllerTest extends BaseTest {
 
   @Test
-  public void putSimpleRuleTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, AmbiguousRulesException, InterruptedException, TimeoutException, ExecutionException {
+  public void putSimpleRuleTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, AmbiguousRulesException,
+      InterruptedException, TimeoutException, ExecutionException {
 
-    final ContentResponse criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param1", "value1"), Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "123")));
+    final ContentResponse criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param1", "value1"),
+        Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "123")));
     Assert.assertEquals(HttpServletResponse.SC_OK, criteriaResponse.getStatus());
 
     final long id = Long.parseLong(new String(criteriaResponse.getContent()));
@@ -53,11 +55,14 @@ public class SimpleRequestControllerTest extends BaseTest {
   }
 
   @Test
-  public void requestWithAmbiguousRuleTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, AmbiguousRulesException, InterruptedException, TimeoutException, ExecutionException {
+  public void requestWithAmbiguousRuleTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException,
+      AmbiguousRulesException, InterruptedException, TimeoutException, ExecutionException {
 
-    ContentResponse criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param1", "value1"), Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "123")));
+    ContentResponse criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param1", "value1"),
+        Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "123")));
     Assert.assertEquals(HttpServletResponse.SC_OK, criteriaResponse.getStatus());
-    criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param2", "value2"), Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "321")));
+    criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param2", "value2"),
+        Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "321")));
     Assert.assertEquals(HttpServletResponse.SC_OK, criteriaResponse.getStatus());
 
     final ContentResponse response = newRequest()
@@ -71,9 +76,11 @@ public class SimpleRequestControllerTest extends BaseTest {
   }
 
   @Test
-  public void deleteRuleTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, AmbiguousRulesException, InterruptedException, TimeoutException, ExecutionException {
+  public void deleteRuleTest() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, AmbiguousRulesException,
+      InterruptedException, TimeoutException, ExecutionException {
 
-    ContentResponse criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param1", "value1"), Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "123")));
+    ContentResponse criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param1", "value1"),
+        Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "123")));
     Assert.assertEquals(HttpServletResponse.SC_OK, criteriaResponse.getStatus());
 
     final long id = Long.parseLong(new String(criteriaResponse.getContent()));
