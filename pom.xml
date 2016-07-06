@@ -61,8 +61,8 @@
                 <version>3.5.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
@@ -131,4 +131,9 @@
             <url>dav:http://m2.hh.ru/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <properties>
+        <spring.version>3.2.17.RELEASE</spring.version>
+        <jetty.version>9.0.7.v20131107</jetty.version>
+    </properties>
 </project>
