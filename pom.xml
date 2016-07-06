@@ -134,6 +134,6 @@
 
     <properties>
         <spring.version>4.3.0.RELEASE</spring.version>
-        <jetty.version>9.0.7.v20131107</jetty.version>
+        <jetty.version>9.3.10.v20160621</jetty.version>
     </properties>
 </project>

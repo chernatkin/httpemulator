@@ -1,26 +1,30 @@
 package ru.hh.httpemulator.server.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import ru.hh.httpemulator.client.entity.AttributeType;
 import ru.hh.httpemulator.client.entity.HttpEntry;
 
-public class HttpUtils {
+public final class HttpUtils {
+
   private static final AtomicLong REQUEST_COUNTER = new AtomicLong(0);
 
   public static final String REQUEST_ID_PARAM_NAME = "REQUEST_ID";
+
+  private HttpUtils() {
+  }
 
   public static long nextRequestId() {
     return REQUEST_COUNTER.incrementAndGet();
   }
 
-  public static Collection<HttpEntry> convertToHttpEntries(final HttpServletRequest request) {
-    final Collection<HttpEntry> entries = new ArrayList<HttpEntry>();
+  public static Collection<HttpEntry> convertToHttpEntries(HttpServletRequest request) {
+    final Collection<HttpEntry> entries = new ArrayList<>();
 
     entries.add(new HttpEntry(AttributeType.PATH, null, request.getPathInfo()));
 
@@ -32,17 +36,18 @@ public class HttpUtils {
       }
     }
 
-    for (Cookie cookie : request.getCookies()) {
-      entries.add(new HttpEntry(AttributeType.COOKIE, cookie.getName(), cookie.getValue()));
+    final Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        entries.add(new HttpEntry(AttributeType.COOKIE, cookie.getName(), cookie.getValue()));
+      }
     }
 
     entries.add(new HttpEntry(AttributeType.METHOD, null, request.getMethod()));
 
-    for (Map.Entry<String, String[]> parameters : request.getParameterMap().entrySet()) {
-      for (String paramValue : parameters.getValue()) {
-        entries.add(new HttpEntry(AttributeType.PARAMETER, parameters.getKey(), paramValue));
-      }
-    }
+    request.getParameterMap().entrySet().stream()
+        .flatMap(parameter -> Arrays.stream(parameter.getValue()).map(value -> new HttpEntry(AttributeType.PARAMETER, parameter.getKey(), value)))
+        .forEach(entries::add);
 
     entries.add(new HttpEntry(AttributeType.PROTOCOL, null, request.getProtocol()));
 
