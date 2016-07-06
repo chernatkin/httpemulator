@@ -2,12 +2,12 @@ package ru.hh.httpemulator.server;
 
 import java.io.IOException;
 import java.util.Collection;
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -35,10 +35,10 @@ import ru.hh.httpemulator.server.utils.HttpUtils;
 public class RequestController {
   private static final Logger LOGGER = LoggerFactory.getLogger(RequestController.class);
 
-  @Autowired
+  @Inject
   private ScenarioEngine scenarioEngine;
 
-  @Autowired
+  @Inject
   private CriteriaHttpEngine criteriaEngine;
 
   @RequestMapping(
@@ -49,8 +49,8 @@ public class RequestController {
     }
   )
   @ResponseBody
-  public void process(final HttpServletRequest request, final HttpServletResponse response) throws AmbiguousRulesException, RuleNotFoundException,
-    IOException, ScenarioNotFoundException {
+  public void process(HttpServletRequest request, HttpServletResponse response)
+      throws AmbiguousRulesException, RuleNotFoundException, IOException, ScenarioNotFoundException {
     final long requestId = getRequestId(request);
 
     final Collection<HttpEntry> requestEntries = HttpUtils.convertToHttpEntries(request);
@@ -66,7 +66,7 @@ public class RequestController {
     }
   }
 
-  private long getRequestId(final HttpServletRequest request) {
+  private long getRequestId(HttpServletRequest request) {
     RequestAttributes attr = RequestContextHolder.getRequestAttributes();
     if (attr == null) {
       if (request == null) {
@@ -89,8 +89,8 @@ public class RequestController {
     return getRequestId(null);
   }
 
-  public void convertToHttpResponse(final HttpServletRequest request, final HttpServletResponse response, final Collection<HttpEntry> entries)
-    throws IOException, ScenarioNotFoundException {
+  public void convertToHttpResponse(HttpServletRequest request, HttpServletResponse response, Collection<HttpEntry> entries)
+      throws IOException, ScenarioNotFoundException {
     for (HttpEntry httpEntry : entries) {
       switch (httpEntry.getType()) {
         case BODY:
@@ -107,6 +107,7 @@ public class RequestController {
           break;
         case SCENARIO:
           scenarioEngine.executeScenario(httpEntry.getValue(), request, response, entries);
+          break;
         default:
           break;
       }

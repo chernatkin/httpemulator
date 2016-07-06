@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -37,10 +37,10 @@ import ru.hh.httpemulator.server.exception.RuleNotFoundException;
 public class CriteriaController {
   private static final Logger LOGGER = LoggerFactory.getLogger(CriteriaController.class);
 
-  @Autowired
+  @Inject
   private ObjectMapper objectMapper;
 
-  @Autowired
+  @Inject
   private CriteriaHttpEngine engine;
 
   @PostConstruct
