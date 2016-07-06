@@ -9,6 +9,6 @@ import ru.hh.httpemulator.client.entity.HttpEntry;
 
 public interface Scenario {
 
-  public Collection<HttpEntry> execute(HttpServletRequest request, HttpServletResponse response, Collection<HttpEntry> otherEntries);
+  Collection<HttpEntry> execute(HttpServletRequest request, HttpServletResponse response, Collection<HttpEntry> otherEntries);
 
 }

@@ -79,7 +79,7 @@ public abstract class HttpRestriction {
     return childs;
   }
 
-  public void setChilds(Set<HttpRestriction> childs) {
+  public final void setChilds(Set<HttpRestriction> childs) {
     this.childs = childs;
   }
 
@@ -87,7 +87,7 @@ public abstract class HttpRestriction {
 
   public boolean match(Collection<HttpEntry> request) {
     for (HttpEntry httpEntry : request) {
-      if (httpEntry.getType().equals(attribyteType) && (httpEntry.getKey() == key || (key != null && key.equals(httpEntry.getKey())))) {
+      if (httpEntry.getType().equals(attribyteType) && (httpEntry.getKey() == key || key != null && key.equals(httpEntry.getKey()))) {
         return matchValue(httpEntry.getValue());
       }
     }

@@ -10,7 +10,7 @@ public class ORHttpRestriction extends HttpRestriction {
   }
 
   public ORHttpRestriction(HttpRestriction... restrictions) {
-    final Set<HttpRestriction> childs = new HashSet<HttpRestriction>(restrictions.length);
+    final Set<HttpRestriction> childs = new HashSet<>(restrictions.length);
     for (HttpRestriction httpRestriction : restrictions) {
       childs.add(httpRestriction);
       httpRestriction.setParent(this);

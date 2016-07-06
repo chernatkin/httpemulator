@@ -11,7 +11,7 @@ import ru.hh.httpemulator.client.entity.HttpRestriction;
 
 public abstract class CriteriaBuilder<T> {
 
-  private final Collection<HttpEntry> result = new ArrayList<HttpEntry>();
+  private final Collection<HttpEntry> result = new ArrayList<>();
 
   private final EmulatorClient client;
 

@@ -9,13 +9,13 @@ import ru.hh.httpemulator.server.exception.RuleNotFoundException;
 
 public interface HttpEngine {
 
-  public Collection<HttpEntry> process(Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException;
+  Collection<HttpEntry> process(Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException;
 
-  public Long addRule(HttpEntry criteria, Collection<HttpEntry> response) throws AmbiguousRulesException;
+  Long addRule(HttpEntry criteria, Collection<HttpEntry> response) throws AmbiguousRulesException;
 
-  public Long addRule(HttpCriteria criteria, Collection<HttpEntry> response) throws AmbiguousRulesException;
+  Long addRule(HttpCriteria criteria, Collection<HttpEntry> response) throws AmbiguousRulesException;
 
-  public void deleteRule(Long id) throws RuleNotFoundException;
+  void deleteRule(Long id) throws RuleNotFoundException;
 
-  public void deleteAll();
+  void deleteAll();
 }

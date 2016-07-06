@@ -81,21 +81,23 @@ public class HttpEntry {
       return false;
     }
     HttpEntry other = (HttpEntry) obj;
+    final String otherKey = other.getKey();
     if (key == null) {
-      if (other.key != null) {
+      if (otherKey != null) {
         return false;
       }
-    } else if (!key.equals(other.key)) {
+    } else if (!key.equals(otherKey)) {
       return false;
     }
-    if (type != other.type) {
+    if (type != other.getType()) {
       return false;
     }
+    final String otherValue = other.getValue();
     if (value == null) {
-      if (other.value != null) {
+      if (otherValue != null) {
         return false;
       }
-    } else if (!value.equals(other.value)) {
+    } else if (!value.equals(otherValue)) {
       return false;
     }
     return true;

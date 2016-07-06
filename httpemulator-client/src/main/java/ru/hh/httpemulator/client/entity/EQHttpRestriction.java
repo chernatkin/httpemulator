@@ -11,6 +11,6 @@ public class EQHttpRestriction extends HttpRestriction {
 
   @Override
   protected boolean matchValue(String value) {
-    return getValue() == value || (getValue() != null && getValue().equals(value));
+    return getValue() == value || getValue() != null && getValue().equals(value);
   }
 }

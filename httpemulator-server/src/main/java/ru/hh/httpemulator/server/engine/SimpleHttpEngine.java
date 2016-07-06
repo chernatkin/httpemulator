@@ -18,7 +18,7 @@ public class SimpleHttpEngine implements HttpEngine {
 
   private final AtomicLong sequence = new AtomicLong();
 
-  private final Map<HttpEntry, Collection<HttpEntry>> rules = new ConcurrentHashMap<HttpEntry, Collection<HttpEntry>>();
+  private final Map<HttpEntry, Collection<HttpEntry>> rules = new ConcurrentHashMap<>();
 
   @Override
   public Collection<HttpEntry> process(Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException {
@@ -66,7 +66,7 @@ public class SimpleHttpEngine implements HttpEngine {
   @Override
   public void deleteRule(Long id) throws RuleNotFoundException {
     if (id == null) {
-      throw new RuleNotFoundException("Rule with id='" + id + "' not found");
+      throw new RuleNotFoundException("Rule with id='null' not found");
     }
 
     for (Iterator<HttpEntry> it = rules.keySet().iterator(); it.hasNext();) {

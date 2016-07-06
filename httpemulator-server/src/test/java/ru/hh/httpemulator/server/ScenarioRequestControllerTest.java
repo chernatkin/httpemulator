@@ -32,7 +32,7 @@ public class ScenarioRequestControllerTest extends BaseTest {
     final ContentResponse criteriaResponse = putSimple(new HttpEntry(AttributeType.PARAMETER, "param1", "value1"),
         Arrays.asList(new HttpEntry(AttributeType.STATUS, null, "548"),
             new HttpEntry(AttributeType.SCENARIO, null, "timeoutScenario"),
-            new HttpEntry(AttributeType.PARAMETER, "timeout", "" + time)));
+            new HttpEntry(AttributeType.PARAMETER, "timeout", Integer.toString(time))));
 
     Assert.assertEquals(HttpServletResponse.SC_OK, criteriaResponse.getStatus());
 

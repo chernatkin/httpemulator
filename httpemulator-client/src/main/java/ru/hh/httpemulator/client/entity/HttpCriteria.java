@@ -8,11 +8,9 @@ public class HttpCriteria {
 
   private Collection<HttpRestriction> restrictions;
 
-  public HttpCriteria() { }
-
   public Collection<HttpRestriction> getRestrictions() {
     if (restrictions == null) {
-      restrictions = new ArrayList<HttpRestriction>();
+      restrictions = new ArrayList<>();
     }
     return restrictions;
   }
@@ -68,11 +66,12 @@ public class HttpCriteria {
       return false;
     }
     HttpCriteria other = (HttpCriteria) obj;
+    final Collection<HttpRestriction> otherRestrictions = other.getRestrictions();
     if (restrictions == null) {
-      if (other.restrictions != null) {
+      if (otherRestrictions != null) {
         return false;
       }
-    } else if (!restrictions.equals(other.restrictions)) {
+    } else if (!restrictions.equals(otherRestrictions)) {
       return false;
     }
     return true;

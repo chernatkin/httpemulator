@@ -12,8 +12,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.annotation.PostConstruct;
 
-import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilder;
+import java.util.function.Function;
 
 import ru.hh.httpemulator.client.entity.EQHttpRestriction;
 import ru.hh.httpemulator.client.entity.HttpCriteria;
@@ -29,7 +29,7 @@ public class CriteriaHttpEngine implements HttpEngine {
 
   private Map<HttpCriteria, Collection<HttpEntry>> rulesMap;
 
-  private final Map<Long, WeakReference<HttpCriteria>> criteriaIndex = new HashMap<Long, WeakReference<HttpCriteria>>();
+  private final Map<Long, WeakReference<HttpCriteria>> criteriaIndex = new HashMap<>();
 
   private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -87,25 +87,21 @@ public class CriteriaHttpEngine implements HttpEngine {
   @Override
   public Long addRule(HttpCriteria criteria, Collection<HttpEntry> response) throws AmbiguousRulesException {
 
-    final long id = executeWithWriteLock(new Function<Void, Long>() {
-
-      @Override
-      public Long apply(Void input) {
-        if (rulesMap.containsKey(criteria)) {
-          return -1L;
-        }
-
-        criteria.setId(sequence.incrementAndGet());
-        rulesMap.put(criteria, response);
-        return criteria.getId();
+    final long id = executeWithWriteLock(voidInput -> {
+      if (rulesMap.containsKey(criteria)) {
+        return -1L;
       }
+
+      criteria.setId(sequence.incrementAndGet());
+      rulesMap.put(criteria, response);
+      return criteria.getId();
     });
 
     if (id < 0) {
       throw new AmbiguousRulesException("Rule " + criteria + " conflict with another:" + rulesMap.get(criteria));
     }
 
-    criteriaIndex.put(id, new WeakReference<HttpCriteria>(criteria));
+    criteriaIndex.put(id, new WeakReference<>(criteria));
     return id;
   }
 
@@ -127,25 +123,14 @@ public class CriteriaHttpEngine implements HttpEngine {
       throw new RuleNotFoundException("Rule with id='" + id + "' not found");
     }
 
-    executeWithWriteLock(new Function<Void, Void>() {
-
-      @Override
-      public Void apply(Void input) {
-        rulesMap.remove(criteria);
-        return null;
-      }
-    });
+    executeWithWriteLock(voidInput -> rulesMap.remove(criteria));
   }
 
   @Override
   public void deleteAll() {
-    executeWithWriteLock(new Function<Void, Void>() {
-
-      @Override
-      public Void apply(Void input) {
-        rulesMap.clear();
-        return null;
-      }
+    executeWithWriteLock(voidInput -> {
+      rulesMap.clear();
+      return null;
     });
 
     criteriaIndex.clear();
