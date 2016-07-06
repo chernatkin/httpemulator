@@ -133,7 +133,7 @@
     </distributionManagement>
 
     <properties>
-        <spring.version>3.2.17.RELEASE</spring.version>
+        <spring.version>4.3.0.RELEASE</spring.version>
         <jetty.version>9.0.7.v20131107</jetty.version>
     </properties>
 </project>
