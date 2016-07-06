@@ -29,7 +29,7 @@ public class HttpCriteria {
     this.id = id;
   }
 
-  public boolean match(final Collection<HttpEntry> request) {
+  public boolean match(Collection<HttpEntry> request) {
     if (restrictions == null) {
       return false;
     }
@@ -43,7 +43,7 @@ public class HttpCriteria {
     return true;
   }
 
-  public HttpCriteria addRestriction(final HttpRestriction restriction) {
+  public HttpCriteria addRestriction(HttpRestriction restriction) {
     getRestrictions().add(restriction);
     return this;
   }

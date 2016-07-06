@@ -17,7 +17,8 @@ public class ScenarioEngine {
 
 	private Map<String, Scenario> scenaries;
 	
-	public Collection<HttpEntry> executeScenario(final String scenarionName, final HttpServletRequest request, final HttpServletResponse response, final Collection<HttpEntry> otherEntries) throws ScenarioNotFoundException{
+  public Collection<HttpEntry> executeScenario(String scenarionName, HttpServletRequest request, HttpServletResponse response,
+      Collection<HttpEntry> otherEntries) throws ScenarioNotFoundException {
 		final Scenario scenario = scenaries.get(scenarionName);
 		if(scenario == null){
 			throw new ScenarioNotFoundException("Scenario {" + scenarionName + "} not found");

@@ -5,25 +5,24 @@ import org.eclipse.jetty.client.api.ContentResponse;
 import ru.hh.httpemulator.client.entity.AttributeType;
 import ru.hh.httpemulator.client.entity.EQHttpRestriction;
 import ru.hh.httpemulator.client.entity.HttpCriteria;
-import ru.hh.httpemulator.client.entity.HttpEntry;
 import ru.hh.httpemulator.client.entity.HttpRestriction;
 
 public class FullCriteriaBuilder extends CriteriaBuilder<FullCriteriaBuilder> {
 	
 	  private HttpCriteria criteria;
 
-	  public FullCriteriaBuilder(final EmulatorClient client) {
+  public FullCriteriaBuilder(EmulatorClient client) {
 	    super(client);
 	  }
 
 	  @Override
-	  public FullCriteriaBuilder addEQ(final AttributeType type, final String key, final String value) {
+  public FullCriteriaBuilder addEQ(AttributeType type, String key, String value) {
 	    getCriteria().addRestriction(new EQHttpRestriction(key, value, type));
 	    return this;
 	  }
 
 	  @Override
-	  public FullCriteriaBuilder add(final HttpRestriction restriction) {
+  public FullCriteriaBuilder add(HttpRestriction restriction) {
 		getCriteria().addRestriction(restriction);
 		return this;
 	  }

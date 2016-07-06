@@ -83,9 +83,9 @@ public abstract class HttpRestriction {
     this.childs = childs;
   }
 
-  protected abstract boolean matchValue(final String value);
+  protected abstract boolean matchValue(String value);
 
-  public boolean match(final Collection<HttpEntry> request) {
+  public boolean match(Collection<HttpEntry> request) {
     for (HttpEntry httpEntry : request) {
       if (httpEntry.getType().equals(attribyteType) && (httpEntry.getKey() == key || (key != null && key.equals(httpEntry.getKey())))) {
         return matchValue(httpEntry.getValue());

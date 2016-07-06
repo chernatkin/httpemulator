@@ -8,7 +8,7 @@ public class NotHttpRestriction extends HttpRestriction {
 	public NotHttpRestriction() {
 	}
 	
-	public NotHttpRestriction(final HttpRestriction restriction) {
+  public NotHttpRestriction(HttpRestriction restriction) {
 		restriction.setParent(this);
 		setChilds(Collections.singleton(restriction));
 	}

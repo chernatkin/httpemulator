@@ -12,8 +12,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.stereotype.Component;
-
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilder;
 
@@ -45,7 +43,7 @@ public class CriteriaHttpEngine implements HttpEngine {
 	}
 	
 	@Override
-	public Collection<HttpEntry> process(final Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException {
+  public Collection<HttpEntry> process(Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException {
 		
 		final Lock readLock = lock.readLock();
 		readLock.lock();
@@ -58,7 +56,7 @@ public class CriteriaHttpEngine implements HttpEngine {
 		}
 	}
 
-	private Collection<HttpEntry> findResponse(final Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException{
+  private Collection<HttpEntry> findResponse(Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException {
 		
 		Map.Entry<HttpCriteria, Collection<HttpEntry>> result = null;
 		for (Map.Entry<HttpCriteria, Collection<HttpEntry>> entry : rulesMap.entrySet()) {
@@ -89,7 +87,7 @@ public class CriteriaHttpEngine implements HttpEngine {
 	}
 
 	@Override
-	public Long addRule(final HttpCriteria criteria, final Collection<HttpEntry> response) throws AmbiguousRulesException {
+  public Long addRule(HttpCriteria criteria, Collection<HttpEntry> response) throws AmbiguousRulesException {
 		
 		final long id = executeWithWriteLock(new Function<Void, Long>() {
 
@@ -114,7 +112,7 @@ public class CriteriaHttpEngine implements HttpEngine {
 	}
 
 	@Override
-	public void deleteRule(final Long id) throws RuleNotFoundException {
+  public void deleteRule(Long id) throws RuleNotFoundException {
 		if(id == null){
 			throw new RuleNotFoundException("Rule with id='null' not found");
 		}
@@ -156,7 +154,7 @@ public class CriteriaHttpEngine implements HttpEngine {
 		criteriaIndex.clear();
 	}
 	
-	private <V> V executeWithWriteLock(final Function<Void, V> func){
+  private <V> V executeWithWriteLock(Function<Void, V> func) {
 		final Lock writeLock = lock.writeLock();
 		writeLock.lock();
 		try{

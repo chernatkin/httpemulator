@@ -21,7 +21,7 @@ public class ORHttpRestriction extends HttpRestriction {
 	}
 	
 	@Override
-	public boolean match(final Collection<HttpEntry> request) {
+  public boolean match(Collection<HttpEntry> request) {
 		
 		for(HttpRestriction child : getChilds()){
 			if(child.match(request)){

@@ -21,7 +21,7 @@ public class SimpleHttpEngine implements HttpEngine{
 	private final Map<HttpEntry, Collection<HttpEntry>> rules = new ConcurrentHashMap<HttpEntry, Collection<HttpEntry>>(); 
 	
 	@Override
-	public Collection<HttpEntry> process(final Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException{
+  public Collection<HttpEntry> process(Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException {
 		
 		Collection<HttpEntry> response = null;
 		HttpEntry responseRule = null;
@@ -49,7 +49,7 @@ public class SimpleHttpEngine implements HttpEngine{
 	}
 
 	@Override
-	public Long addRule(final HttpEntry rule, final Collection<HttpEntry> response) throws AmbiguousRulesException {
+  public Long addRule(HttpEntry rule, Collection<HttpEntry> response) throws AmbiguousRulesException {
 		if(rules.containsKey(rule)){
 			throw new AmbiguousRulesException("Rule " + rule + " conflict with:" + rules.get(rule));
 		}
@@ -61,7 +61,7 @@ public class SimpleHttpEngine implements HttpEngine{
 	}
 
 	@Override
-	public Long addRule(final HttpCriteria criteria, final Collection<HttpEntry> response) throws AmbiguousRulesException {
+  public Long addRule(HttpCriteria criteria, Collection<HttpEntry> response) throws AmbiguousRulesException {
 		throw new UnsupportedOperationException();
 	}
 

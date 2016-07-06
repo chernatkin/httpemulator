@@ -19,11 +19,11 @@ public abstract class CriteriaBuilder<T> {
 		this.client = client;
 	}
 
-	public abstract T addEQ(final AttributeType type, final String key, final String value);
+  public abstract T addEQ(AttributeType type, String key, String value);
 
-	public abstract T add(final HttpRestriction restriction);
+  public abstract T add(HttpRestriction restriction);
 		  
-	public T addResponseEntry(final AttributeType type, final String key, final String value) {
+  public T addResponseEntry(AttributeType type, String key, String value) {
 	    getResult().add(new HttpEntry(type, key, value));
 	    return self();
 	}

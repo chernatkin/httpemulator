@@ -45,8 +45,8 @@ public class EmulatorClient {
     return client.newRequest(url);
   }
 
-  protected ContentResponse putSimple(final HttpEntry rule, final Collection<HttpEntry> responseEntries) throws JsonProcessingException,
-    InterruptedException, TimeoutException, ExecutionException {
+  protected ContentResponse putSimple(HttpEntry rule, Collection<HttpEntry> responseEntries)
+      throws JsonProcessingException, InterruptedException, TimeoutException, ExecutionException {
     return newRequest().path(PUT_SIMPLE_PATH)
     .method(HttpMethod.PUT)
     .param("rule", jsonMapper.writeValueAsString(rule))
@@ -54,7 +54,7 @@ public class EmulatorClient {
     .send();
   }
   
-  public void deleteRule(final long id) throws InterruptedException, TimeoutException, ExecutionException{
+  public void deleteRule(long id) throws InterruptedException, TimeoutException, ExecutionException {
 	  final ContentResponse response = newRequest().path(CRITERIA_PATH)
 	  	.method(HttpMethod.DELETE)
 	  	.param("id", Long.toString(id))
@@ -65,7 +65,8 @@ public class EmulatorClient {
 	  }
   }
   
-  protected ContentResponse putRule(final HttpCriteria criteria, final Collection<HttpEntry> responseEntries) throws JsonProcessingException, InterruptedException, TimeoutException, ExecutionException {
+  protected ContentResponse putRule(HttpCriteria criteria, Collection<HttpEntry> responseEntries)
+      throws JsonProcessingException, InterruptedException, TimeoutException, ExecutionException {
 	    return newRequest().path(PUT_FULL_RULE_PATH)
 	    	    .method(HttpMethod.PUT)
 	    	    .param("criteria", jsonMapper.writeValueAsString(criteria))

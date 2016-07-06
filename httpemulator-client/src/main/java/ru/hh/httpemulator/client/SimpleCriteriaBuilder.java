@@ -10,12 +10,12 @@ public class SimpleCriteriaBuilder extends CriteriaBuilder<SimpleCriteriaBuilder
 	
   private HttpEntry rule;
 
-  public SimpleCriteriaBuilder(final EmulatorClient client) {
+  public SimpleCriteriaBuilder(EmulatorClient client) {
     super(client);
   }
 
   @Override
-  public SimpleCriteriaBuilder addEQ(final AttributeType type, final String key, final String value) {
+  public SimpleCriteriaBuilder addEQ(AttributeType type, String key, String value) {
 	if(rule != null){
 		throw new IllegalStateException("Simple builder allow only one restriction");
 	}
@@ -24,7 +24,7 @@ public class SimpleCriteriaBuilder extends CriteriaBuilder<SimpleCriteriaBuilder
   }
 
   @Override
-  public SimpleCriteriaBuilder add(final HttpRestriction restriction) {
+  public SimpleCriteriaBuilder add(HttpRestriction restriction) {
 	rule = new HttpEntry(restriction.getAttribyteType(), restriction.getKey(), restriction.getValue());
 	return this;
   }
