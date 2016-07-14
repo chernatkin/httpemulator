@@ -3,7 +3,7 @@
     <groupId>ru.hh.httpemulator</groupId>
     <artifactId>httpemulator</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.5</version>
+    <version>1.0.6-SNAPSHOT</version>
     <name>HTTP Emulator</name>
     <description>Generic HTTP Service Emulator</description>
 
@@ -22,7 +22,7 @@
         <connection>scm:git:git://github.com/hhru/httpemulator.git</connection>
         <developerConnection>scm:git:git@github.com:hhru/httpemulator.git</developerConnection>
         <url>https://github.com/hhru/httpemulator</url>
-      <tag>httpemulator-1.0.5</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <developers>

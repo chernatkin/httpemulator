@@ -4,13 +4,13 @@
     <parent>
         <groupId>ru.hh.httpemulator</groupId>
         <artifactId>httpemulator</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>ru.hh.httpemulator</groupId>
     <artifactId>httpemulator-server</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>httpemulator-server</name>
