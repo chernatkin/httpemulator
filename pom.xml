@@ -7,6 +7,12 @@
     <name>HTTP Emulator</name>
     <description>Generic HTTP Service Emulator</description>
 
+    <parent>
+        <groupId>ru.hh.public-pom</groupId>
+        <artifactId>public-pom</artifactId>
+        <version>1.31</version>
+    </parent>
+
     <modules>
         <module>httpemulator-server</module>
         <module>httpemulator-client</module>
