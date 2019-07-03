@@ -1,0 +1,5 @@
+docker_files:
+  httpemulator: httpemulator-server/docker/Dockerfile
+build_image: registry.pyn.ru/building-trusty 
+build_method: mvn_build
+update_method: mvn_update
