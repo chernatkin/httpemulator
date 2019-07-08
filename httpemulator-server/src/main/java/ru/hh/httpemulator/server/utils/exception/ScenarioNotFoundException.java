@@ -1,4 +1,4 @@
-package ru.hh.httpemulator.server.exception;
+package ru.hh.httpemulator.server.utils.exception;
 
 public class ScenarioNotFoundException extends Exception {
 

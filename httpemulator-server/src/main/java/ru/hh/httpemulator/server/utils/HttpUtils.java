@@ -28,10 +28,10 @@ public final class HttpUtils {
 
     entries.add(new HttpEntry(AttributeType.PATH, null, request.getPathInfo()));
 
-    for (Enumeration<String> headerNames = request.getHeaderNames(); headerNames.hasMoreElements();) {
+    for (Enumeration<String> headerNames = request.getHeaderNames(); headerNames.hasMoreElements(); ) {
       final String headerName = headerNames.nextElement();
 
-      for (Enumeration<String> headerValues = request.getHeaders(headerName); headerValues.hasMoreElements();) {
+      for (Enumeration<String> headerValues = request.getHeaders(headerName); headerValues.hasMoreElements(); ) {
         entries.add(new HttpEntry(AttributeType.HEADER, headerName, headerValues.nextElement()));
       }
     }
