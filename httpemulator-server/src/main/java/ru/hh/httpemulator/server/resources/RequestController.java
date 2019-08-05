@@ -1,13 +1,10 @@
 package ru.hh.httpemulator.server.resources;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HEAD;
@@ -18,7 +15,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.PathSegment;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestAttributes;
@@ -48,68 +48,75 @@ public class RequestController {
 
   @GET
   @Path("{any: .*}")
-  public void processGet(@PathParam("any") List<PathSegment> segments,
-                         @Context HttpServletRequest request,
-                         @Context HttpServletResponse response)
+  public Response processGet(@PathParam("any") List<PathSegment> segments,
+                             @Context HttpServletRequest request)
       throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+    Response.ResponseBuilder response = Response.status(Response.Status.OK);
     process(request, response);
+    return response.build();
   }
 
   @POST
   @Path("{any: .*}")
-  public void processPost(@PathParam("any") List<PathSegment> segments,
-                          @Context HttpServletRequest request,
-                          @Context HttpServletResponse response)
+  public Response processPost(@PathParam("any") List<PathSegment> segments,
+                              @Context HttpServletRequest request)
       throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+    Response.ResponseBuilder response = Response.status(Response.Status.OK);
     process(request, response);
+    return response.build();
   }
 
   @PUT
   @Path("{any: .*}")
-  public void processPut(@PathParam("any") List<PathSegment> segments,
-                            @Context HttpServletRequest request,
-                            @Context HttpServletResponse response)
+  public Response processPut(@PathParam("any") List<PathSegment> segments,
+                             @Context HttpServletRequest request)
       throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+    Response.ResponseBuilder response = Response.status(Response.Status.OK);
     process(request, response);
+    return response.build();
   }
 
   @DELETE
   @Path("{any: .*}")
-  public void processDelete(@PathParam("any") List<PathSegment> segments,
-                            @Context HttpServletRequest request,
-                            @Context HttpServletResponse response)
+  public Response processDelete(@PathParam("any") List<PathSegment> segments,
+                                @Context HttpServletRequest request)
       throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+    Response.ResponseBuilder response = Response.status(Response.Status.OK);
     process(request, response);
+    return response.build();
   }
 
   @HEAD
   @Path("{any: .*}")
-  public void processHead(@PathParam("any") List<PathSegment> segments,
-                            @Context HttpServletRequest request,
-                            @Context HttpServletResponse response)
+  public Response processHead(@PathParam("any") List<PathSegment> segments,
+                              @Context HttpServletRequest request)
       throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+    Response.ResponseBuilder response = Response.status(Response.Status.OK);
     process(request, response);
+    return response.build();
   }
 
   @OPTIONS
   @Path("{any: .*}")
-  public void processOptions(@PathParam("any") List<PathSegment> segments,
-                            @Context HttpServletRequest request,
-                            @Context HttpServletResponse response)
+  public Response processOptions(@PathParam("any") List<PathSegment> segments,
+                                 @Context HttpServletRequest request)
       throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+    Response.ResponseBuilder response = Response.status(Response.Status.OK);
     process(request, response);
+    return response.build();
   }
 
   @PATCH
   @Path("{any: .*}")
-  public void processPatch(@PathParam("any") List<PathSegment> segments,
-                            @Context HttpServletRequest request,
-                            @Context HttpServletResponse response)
+  public Response processPatch(@PathParam("any") List<PathSegment> segments,
+                               @Context HttpServletRequest request)
       throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+    Response.ResponseBuilder response = Response.status(Response.Status.OK);
     process(request, response);
+    return response.build();
   }
 
-  private void process(HttpServletRequest request, HttpServletResponse response)
+  private void process(HttpServletRequest request, Response.ResponseBuilder response)
       throws AmbiguousRulesException, RuleNotFoundException, IOException, ScenarioNotFoundException {
     final long requestId = getRequestId(request);
 
@@ -146,21 +153,21 @@ public class RequestController {
   }
 
   private void convertToHttpResponse(HttpServletRequest request,
-                                     HttpServletResponse response,
-                                     Collection<HttpEntry> entries) throws IOException, ScenarioNotFoundException {
+                                     Response.ResponseBuilder response,
+                                     Collection<HttpEntry> entries) throws ScenarioNotFoundException {
     for (HttpEntry httpEntry : entries) {
       switch (httpEntry.getType()) {
         case BODY:
-          response.getOutputStream().write(httpEntry.getValue().getBytes(Charset.forName("UTF-8")));
+          response.entity(httpEntry.getValue());
           break;
         case HEADER:
-          response.addHeader(httpEntry.getKey(), httpEntry.getValue());
+          response.header(httpEntry.getKey(), httpEntry.getValue());
           break;
         case COOKIE:
-          response.addCookie(new Cookie(httpEntry.getKey(), httpEntry.getValue()));
+          response.cookie(new NewCookie(new Cookie(httpEntry.getKey(), httpEntry.getValue())));
           break;
         case STATUS:
-          response.setStatus(Integer.parseInt(httpEntry.getValue()));
+          response.status(Integer.parseInt(httpEntry.getValue()));
           break;
         case SCENARIO:
           scenarioEngine.executeScenario(httpEntry.getValue(), request, response, entries);
