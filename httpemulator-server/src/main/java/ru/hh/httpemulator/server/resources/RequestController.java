@@ -1,8 +1,8 @@
 package ru.hh.httpemulator.server.resources;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DELETE;
@@ -16,11 +16,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -49,78 +51,85 @@ public class RequestController {
   @GET
   @Path("{any: .*}")
   public Response processGet(@PathParam("any") List<PathSegment> segments,
+                             @Nullable MultivaluedMap<String, String> formParameters,
                              @Context HttpServletRequest request)
-      throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+      throws AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
     Response.ResponseBuilder response = Response.status(Response.Status.OK);
-    process(request, response);
+    process(request, response, formParameters);
     return response.build();
   }
 
   @POST
   @Path("{any: .*}")
   public Response processPost(@PathParam("any") List<PathSegment> segments,
+                              @Nullable MultivaluedMap<String, String> formParameters,
                               @Context HttpServletRequest request)
-      throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+      throws AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
     Response.ResponseBuilder response = Response.status(Response.Status.OK);
-    process(request, response);
+    process(request, response, formParameters);
     return response.build();
   }
 
   @PUT
   @Path("{any: .*}")
   public Response processPut(@PathParam("any") List<PathSegment> segments,
+                             @Nullable MultivaluedMap<String, String> formParameters,
                              @Context HttpServletRequest request)
-      throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+      throws AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
     Response.ResponseBuilder response = Response.status(Response.Status.OK);
-    process(request, response);
+    process(request, response, formParameters);
     return response.build();
   }
 
   @DELETE
   @Path("{any: .*}")
   public Response processDelete(@PathParam("any") List<PathSegment> segments,
+                                @Nullable MultivaluedMap<String, String> formParameters,
                                 @Context HttpServletRequest request)
-      throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+      throws AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
     Response.ResponseBuilder response = Response.status(Response.Status.OK);
-    process(request, response);
+    process(request, response, formParameters);
     return response.build();
   }
 
   @HEAD
   @Path("{any: .*}")
   public Response processHead(@PathParam("any") List<PathSegment> segments,
+                              @Nullable MultivaluedMap<String, String> formParameters,
                               @Context HttpServletRequest request)
-      throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+      throws AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
     Response.ResponseBuilder response = Response.status(Response.Status.OK);
-    process(request, response);
+    process(request, response, formParameters);
     return response.build();
   }
 
   @OPTIONS
   @Path("{any: .*}")
   public Response processOptions(@PathParam("any") List<PathSegment> segments,
+                                 @Nullable MultivaluedMap<String, String> formParameters,
                                  @Context HttpServletRequest request)
-      throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+      throws AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
     Response.ResponseBuilder response = Response.status(Response.Status.OK);
-    process(request, response);
+    process(request, response, formParameters);
     return response.build();
   }
 
   @PATCH
   @Path("{any: .*}")
   public Response processPatch(@PathParam("any") List<PathSegment> segments,
+                               @Nullable MultivaluedMap<String, String> formParameters,
                                @Context HttpServletRequest request)
-      throws IOException, AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
+      throws AmbiguousRulesException, ScenarioNotFoundException, RuleNotFoundException {
     Response.ResponseBuilder response = Response.status(Response.Status.OK);
-    process(request, response);
+    process(request, response, formParameters);
     return response.build();
   }
 
-  private void process(HttpServletRequest request, Response.ResponseBuilder response)
-      throws AmbiguousRulesException, RuleNotFoundException, IOException, ScenarioNotFoundException {
+  private void process(HttpServletRequest request, Response.ResponseBuilder response, Map<String, List<String>> formParameters)
+      throws AmbiguousRulesException, RuleNotFoundException, ScenarioNotFoundException {
     final long requestId = getRequestId(request);
 
-    final Collection<HttpEntry> requestEntries = HttpUtils.convertToHttpEntries(request);
+    final Collection<HttpEntry> requestEntries = HttpUtils.convertToHttpEntries(request, formParameters);
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("EMULATOR REQUEST. id=" + requestId + "\n" + requestEntries);
     }

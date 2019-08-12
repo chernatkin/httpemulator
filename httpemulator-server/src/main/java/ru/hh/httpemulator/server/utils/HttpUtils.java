@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import ru.hh.httpemulator.client.entity.AttributeType;
 import ru.hh.httpemulator.client.entity.HttpEntry;
 
@@ -23,7 +26,7 @@ public final class HttpUtils {
     return REQUEST_COUNTER.incrementAndGet();
   }
 
-  public static Collection<HttpEntry> convertToHttpEntries(HttpServletRequest request) {
+  public static Collection<HttpEntry> convertToHttpEntries(HttpServletRequest request, Map<String, List<String>> formParameters) {
     final Collection<HttpEntry> entries = new ArrayList<>();
 
     entries.add(new HttpEntry(AttributeType.PATH, null, request.getPathInfo()));
@@ -45,9 +48,18 @@ public final class HttpUtils {
 
     entries.add(new HttpEntry(AttributeType.METHOD, null, request.getMethod()));
 
-    request.getParameterMap().entrySet().stream()
-        .flatMap(parameter -> Arrays.stream(parameter.getValue()).map(value -> new HttpEntry(AttributeType.PARAMETER, parameter.getKey(), value)))
-        .forEach(entries::add);
+    if (formParameters != null) {
+      formParameters.entrySet().stream()
+          .filter(it -> StringUtils.isNotBlank(it.getKey()))
+          .flatMap(parameter -> parameter.getValue().stream().map(value -> new HttpEntry(AttributeType.PARAMETER, parameter.getKey(), value)))
+          .forEach(entries::add);
+    }
+
+    if (request.getParameterMap() != null) {
+      request.getParameterMap().entrySet().stream()
+          .flatMap(parameter -> Arrays.stream(parameter.getValue()).map(value -> new HttpEntry(AttributeType.PARAMETER, parameter.getKey(), value)))
+          .forEach(entries::add);
+    }
 
     entries.add(new HttpEntry(AttributeType.PROTOCOL, null, request.getProtocol()));
 
