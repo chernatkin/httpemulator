@@ -2,21 +2,20 @@ package ru.hh.httpemulator.server.scenario;
 
 import java.util.Collection;
 import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 import org.springframework.util.CollectionUtils;
 import ru.hh.httpemulator.client.entity.AttributeType;
 import ru.hh.httpemulator.client.entity.HttpEntry;
 
 @Named(value = OAuthCodeCallbackScenario.SCENARIO_NAME)
-@Singleton
 public class OAuthCodeCallbackScenario implements Scenario {
   public static final String SCENARIO_NAME = "oAuthCodeCallbackScenario";
   public static final String OAUTH_REDIRECT_URI_KEY = "oauth_redirect_uri";
 
   @Override
-  public Collection<HttpEntry> execute(HttpServletRequest request, HttpServletResponse response, Collection<HttpEntry> otherEntries) {
+  public Collection<HttpEntry> execute(HttpServletRequest request, Response.ResponseBuilder response, Collection<HttpEntry> otherEntries) {
     final String state = request.getParameter("state");
     if (state == null) {
       return null;
@@ -29,10 +28,10 @@ public class OAuthCodeCallbackScenario implements Scenario {
           .map(HttpEntry::getValue)
           .findFirst()
           .ifPresent(oauthRedirectUri
-              -> response.setHeader("Location", oauthRedirectUri + (oauthRedirectUri.indexOf('?') == -1 ? '?' : '&') + "state=" + state));
+              -> response.header("Location", oauthRedirectUri + (oauthRedirectUri.indexOf('?') == -1 ? '?' : '&') + "state=" + state));
     }
 
-    response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+    response.status(HttpServletResponse.SC_MOVED_TEMPORARILY);
 
     return null;
   }

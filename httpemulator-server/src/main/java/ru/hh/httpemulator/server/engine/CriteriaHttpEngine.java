@@ -1,5 +1,6 @@
 package ru.hh.httpemulator.server.engine;
 
+import com.google.common.cache.CacheBuilder;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,23 +10,15 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.annotation.PostConstruct;
-
-import com.google.common.cache.CacheBuilder;
 import java.util.function.Function;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
+import javax.annotation.PostConstruct;
 import ru.hh.httpemulator.client.entity.EQHttpRestriction;
 import ru.hh.httpemulator.client.entity.HttpCriteria;
 import ru.hh.httpemulator.client.entity.HttpEntry;
-import ru.hh.httpemulator.server.exception.AmbiguousRulesException;
-import ru.hh.httpemulator.server.exception.RuleNotFoundException;
+import ru.hh.httpemulator.server.utils.exception.AmbiguousRulesException;
+import ru.hh.httpemulator.server.utils.exception.RuleNotFoundException;
 
-@Named
-@Singleton
-public class CriteriaHttpEngine implements HttpEngine {
+public class CriteriaHttpEngine {
 
   private final AtomicLong sequence = new AtomicLong();
 
@@ -46,7 +39,6 @@ public class CriteriaHttpEngine implements HttpEngine {
         .asMap();
   }
 
-  @Override
   public Collection<HttpEntry> process(Collection<HttpEntry> request) throws AmbiguousRulesException, RuleNotFoundException {
 
     final Lock readLock = lock.readLock();
@@ -81,16 +73,13 @@ public class CriteriaHttpEngine implements HttpEngine {
     return result.getValue();
   }
 
-  @Override
   public Long addRule(HttpEntry criteria, Collection<HttpEntry> response) throws AmbiguousRulesException {
     return addRule(new HttpCriteria()
         .addRestriction(new EQHttpRestriction(criteria.getKey(), criteria.getValue(), criteria.getType())),
         response);
   }
 
-  @Override
   public Long addRule(HttpCriteria criteria, Collection<HttpEntry> response) throws AmbiguousRulesException {
-
     final long id = executeWithWriteLock(voidInput -> {
       if (rulesMap.containsKey(criteria)) {
         return -1L;
@@ -109,7 +98,6 @@ public class CriteriaHttpEngine implements HttpEngine {
     return id;
   }
 
-  @Override
   public void deleteRule(Long id) throws RuleNotFoundException {
     if (id == null) {
       throw new RuleNotFoundException("Rule with id='null' not found");
@@ -130,7 +118,6 @@ public class CriteriaHttpEngine implements HttpEngine {
     executeWithWriteLock(voidInput -> rulesMap.remove(criteria));
   }
 
-  @Override
   public void deleteAll() {
     executeWithWriteLock(voidInput -> {
       rulesMap.clear();

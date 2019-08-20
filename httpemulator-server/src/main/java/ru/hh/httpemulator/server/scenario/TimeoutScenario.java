@@ -2,22 +2,17 @@ package ru.hh.httpemulator.server.scenario;
 
 import java.util.Collection;
 import javax.inject.Named;
-import javax.inject.Singleton;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
-
 import ru.hh.httpemulator.client.entity.AttributeType;
 import ru.hh.httpemulator.client.entity.HttpEntry;
 
 @Named(value = TimeoutScenario.SCENARIO_NAME)
-@Singleton
 public class TimeoutScenario implements Scenario {
-  public static final String SCENARIO_NAME = "timeoutScenario";
+  static final String SCENARIO_NAME = "timeoutScenario";
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TimeoutScenario.class);
 
@@ -26,7 +21,7 @@ public class TimeoutScenario implements Scenario {
   private static final String TIMEOUT_KEY = "timeout";
 
   @Override
-  public Collection<HttpEntry> execute(HttpServletRequest request, HttpServletResponse response, Collection<HttpEntry> otherEntries) {
+  public Collection<HttpEntry> execute(HttpServletRequest request, Response.ResponseBuilder response, Collection<HttpEntry> otherEntries) {
 
     int timeout = DEFAULT_TIMEOUT;
     if (!CollectionUtils.isEmpty(otherEntries)) {
@@ -45,5 +40,4 @@ public class TimeoutScenario implements Scenario {
 
     return otherEntries;
   }
-
 }

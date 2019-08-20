@@ -1,0 +1,5 @@
+docker_files:
+  httpemulator: httpemulator-server/docker/Dockerfile
+build_image: registry.pyn.ru/openjdk11-building:2019.04.04
+build_method: mvn_build
+update_method: mvn_update
