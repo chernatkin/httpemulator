@@ -14,6 +14,11 @@
 
     <name>httpemulator-server</name>
 
+    <properties>
+        <target-test-stand>${env.TARGET_TEST_STAND}</target-test-stand>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>ru.hh.httpemulator</groupId>
@@ -51,6 +56,27 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>ru.hh</groupId>
+                <artifactId>test-stand-maven-plugin</artifactId>
+                <version>2.5.8</version>
+                <configuration>
+                    <targetHost>${target-test-stand}</targetHost>
+                    <targetContainer>httpemulator</targetContainer>
+                    <settingsDir>${basedir}/src/etc</settingsDir>
+                    <servicePort>18880</servicePort>
+                    <debugPort>18885</debugPort>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile-config</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile-config</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
