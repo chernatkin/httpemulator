@@ -82,7 +82,10 @@ public class CriteriaHttpEngine {
   public Long addRule(HttpCriteria criteria, Collection<HttpEntry> response) throws AmbiguousRulesException {
     final long id = executeWithWriteLock(voidInput -> {
       if (rulesMap.containsKey(criteria)) {
-        return -1L;
+        var existedRule = rulesMap.get(criteria);
+        if (!existedRule.equals(response)) {
+          return -1L;
+        }
       }
 
       criteria.setId(sequence.incrementAndGet());
