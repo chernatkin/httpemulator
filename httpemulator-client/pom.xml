@@ -4,12 +4,12 @@
     <parent>
         <groupId>ru.hh.httpemulator</groupId>
         <artifactId>httpemulator</artifactId>
-        <version>1.0.7-SNAPSHOT</version>
+        <version>1.0.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>httpemulator-client</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7</version>
     <name>httpemulator-client</name>
     <description>Client to HTTP emulator</description>
     <packaging>jar</packaging>
