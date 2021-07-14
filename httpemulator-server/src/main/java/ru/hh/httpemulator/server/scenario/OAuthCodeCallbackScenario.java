@@ -1,5 +1,7 @@
 package ru.hh.httpemulator.server.scenario;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +29,9 @@ public class OAuthCodeCallbackScenario implements Scenario {
           .filter(httpEntry -> OAUTH_REDIRECT_URI_KEY.equals(httpEntry.getKey()))
           .map(HttpEntry::getValue)
           .findFirst()
-          .ifPresent(oauthRedirectUri
-              -> response.header("Location", oauthRedirectUri + (oauthRedirectUri.indexOf('?') == -1 ? '?' : '&') + "state=" + state));
+          .ifPresent(oauthRedirectUri -> response.header(
+              "Location",
+              oauthRedirectUri + (oauthRedirectUri.indexOf('?') == -1 ? '?' : '&') + "state=" + URLEncoder.encode(state, StandardCharsets.UTF_8)));
     }
 
     response.status(HttpServletResponse.SC_MOVED_TEMPORARILY);
