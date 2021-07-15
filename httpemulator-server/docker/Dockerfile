@@ -1,4 +1,4 @@
-FROM registry.pyn.ru/openjdk11-production:2019.04.04 
+FROM registry.pyn.ru/openjdk15-production:2021.05.26
 
 ENV LANG="en_US.UTF-8"
 

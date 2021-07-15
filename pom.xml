@@ -10,7 +10,7 @@
     <parent>
         <groupId>ru.hh.public-pom</groupId>
         <artifactId>public-pom</artifactId>
-        <version>1.36</version>
+        <version>1.49</version>
     </parent>
 
     <modules>
@@ -18,25 +18,4 @@
         <module>httpemulator-client</module>
     </modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <localCheckout>true</localCheckout>
-                    <pushChanges>false</pushChanges>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.7</version>
-            </plugin>
-            <plugin>
-                <groupId>ru.hh.checkstyle</groupId>
-                <artifactId>hh-maven-checkstyle-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>
