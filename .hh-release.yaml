@@ -1,3 +1,4 @@
+version: 1.0.7
 docker_files:
   httpemulator: httpemulator-server/docker/Dockerfile
 build_image: registry.pyn.ru/openjdk11-building:2019.04.04
