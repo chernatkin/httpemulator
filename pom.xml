@@ -3,7 +3,7 @@
     <groupId>ru.hh.httpemulator</groupId>
     <artifactId>httpemulator</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.9</version>
     <name>HTTP Emulator</name>
     <description>Generic HTTP Service Emulator</description>
 
@@ -18,4 +18,8 @@
         <module>httpemulator-client</module>
     </modules>
 
+
+  <scm>
+    <tag>httpemulator-1.0.9</tag>
+  </scm>
 </project>
