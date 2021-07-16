@@ -15,6 +15,7 @@
     <name>httpemulator-server</name>
 
     <properties>
+        <!--suppress UnresolvedMavenProperty -->
         <target-test-stand>${env.TARGET_TEST_STAND}</target-test-stand>
     </properties>
 
@@ -120,8 +121,7 @@
                         </goals>
                         <configuration>
                             <finalName>httpemulator</finalName>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                            <transformers combine.children="append">
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>ru.hh.httpemulator.server.Launcher</Main-Class>
@@ -134,16 +134,6 @@
                                     <resource>META-INF/spring.schemas</resource>
                                 </transformer>
                             </transformers>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
                         </configuration>
                     </execution>
                 </executions>
