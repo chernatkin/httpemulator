@@ -4,12 +4,12 @@
     <parent>
         <groupId>ru.hh.httpemulator</groupId>
         <artifactId>httpemulator</artifactId>
-        <version>1.0.9</version>
+        <version>1.0.10-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>httpemulator-client</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.10-SNAPSHOT</version>
     <name>httpemulator-client</name>
     <description>Client to HTTP emulator</description>
     <packaging>jar</packaging>
@@ -41,8 +41,4 @@
             <version>9.4.15.v20190215</version>
         </dependency>
     </dependencies>
-
-  <scm>
-    <tag>httpemulator-1.0.9</tag>
-  </scm>
 </project>
